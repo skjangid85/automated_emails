@@ -15,21 +15,35 @@ class NewsFeed:
         self.language = language
 
     def get(self):
+        url = self.get_url()
+
+        articles = self.get_article(url)
+
+        email_body = self._email(articles)
+
+        return email_body
+
+    def _email(self, articles):
+        email_body = ''
+        for article in articles:
+            email_body = email_body + article['title'] + "\n" + article['url'] + "\n\n"
+        return email_body
+
+    def get_article(self, url):
+        r = requests.get(url)
+        data = r.json()
+        articles = data['articles']
+        return articles
+
+    def get_url(self):
         url = f'{self.base_url}' \
               f'qInTitle={self.interest}&' \
               f'from={self.from_date}&' \
               f'to={self.to_date}&' \
               f'language={self.language}&' \
               f'apiKey={self.api_key}'
-        r = requests.get(url)
-        data = r.json()
-        articles = data['articles']
+        return url
 
-        email_body = ''
-        for article in articles:
-            email_body = email_body + article['title'] + "\n" + article['url'] + "\n\n"
-
-        return email_body
 
 if __name__ == '__main__':
     news_feed = NewsFeed('meditation', '2021-05-21', '2021-05-20', 'en')

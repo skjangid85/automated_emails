@@ -7,7 +7,7 @@ import time
 df = pandas.read_excel('people.xlsx')
 
 while True:
-    if datetime.datetime.now().hour == 20 and datetime.datetime.now().minute == 4:
+    if datetime.datetime.now().hour == 16 and datetime.datetime.now().minute == 27:
         for index, row in df.iterrows():
             today = datetime.datetime.now().strftime('%Y-%m-%d')
             yesterday = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime('%Y-%m_%d')
